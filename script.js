@@ -52,11 +52,6 @@ const teams = [
   { group: 'L', flag: '🇵🇦', name: 'Panama' }
 ];
 
-// EDITABLE MATCH DATA
-// This is the placeholder/static schedule. To change the featured match, edit these objects.
-// kickoff should stay as an ISO date string, e.g. '2026-06-19T20:30:00-04:00'.
-// Later, this array can be replaced by API data as long as each match has:
-// { id, stage, kickoff, home, away }.
 const matches = [
   { id: '66457070', stage: 'Group E', kickoff: '2026-06-14T13:00:00-04:00', home: 'Germany', away: 'Curacao' },
   { id: '66456968', stage: 'Group F', kickoff: '2026-06-14T16:00:00-04:00', home: 'Netherlands', away: 'Japan' },
@@ -124,9 +119,9 @@ const matches = [
   { id: '66457028', stage: 'Group J', kickoff: '2026-06-27T22:00:00-04:00', home: 'Algeria', away: 'Austria' }
 ];
 
-const storageKey = 'world-cup-picks-v1';
+const picksJsonUrl = './sample-picks.json';
 const validStatuses = ['Alive', 'Eliminated', 'Winner'];
-let picks = loadPicks().map(normalizePick).filter(pick => pick.friend && pick.team);
+let picks = [];
 
 const searchInput = document.querySelector('#searchInput');
 const statusFilter = document.querySelector('#statusFilter');
@@ -135,17 +130,36 @@ const bars = document.querySelector('#bars');
 const toast = document.querySelector('#toast');
 const nextMatchCard = document.querySelector('#nextMatchCard');
 
-function loadPicks() {
+async function loadPicksFromJson() {
   try {
-    return JSON.parse(localStorage.getItem(storageKey)) || [];
-  } catch {
-    return [];
+    const response = await fetch(picksJsonUrl, { cache: 'no-store' });
+
+    if (!response.ok) {
+      throw new Error('Could not load picks JSON');
+    }
+
+    const payload = await response.json();
+    const importedPicks = Array.isArray(payload) ? payload : payload.picks;
+
+    if (!Array.isArray(importedPicks)) {
+      throw new Error('Invalid picks JSON format');
+    }
+
+    picks = importedPicks
+      .map(normalizePick)
+      .filter(pick => pick.friend && pick.team);
+
+    render();
+  } catch (error) {
+    tableArea.innerHTML = `
+      <div class="empty">
+        Could not load picks from sample-picks.json. Make sure you are running the site through a local server.
+      </div>
+    `;
+    console.error(error);
   }
 }
 
-function savePicks() {
-  localStorage.setItem(storageKey, JSON.stringify(picks));
-}
 
 function getTeam(teamName) {
   return teams.find(team => team.name === teamName) || { name: teamName, flag: '🏳️', group: '?' };
@@ -359,7 +373,6 @@ function updatePickStatus(id, status) {
   if (!pick) return;
   pick.status = normalizeStatus(status);
   pick.updatedAt = new Date().toISOString();
-  savePicks();
   render();
   showToast('Status updated');
 }
@@ -370,7 +383,6 @@ function deletePick(id) {
   const confirmed = confirm(`Delete ${pick.friend}'s pick?`);
   if (!confirmed) return;
   picks = picks.filter(item => item.id !== id);
-  savePicks();
   render();
   showToast('Pick deleted');
 }
@@ -420,7 +432,6 @@ document.querySelector('#importFile').addEventListener('change', async event => 
     const importedPicks = Array.isArray(payload) ? payload : payload.picks;
     if (!Array.isArray(importedPicks)) throw new Error('Invalid file format');
     picks = importedPicks.map(normalizePick).filter(pick => pick.friend && pick.team);
-    savePicks();
     render();
     showToast('JSON imported');
   } catch (error) {
@@ -435,9 +446,8 @@ document.querySelector('#clearBtn').addEventListener('click', () => {
   const confirmed = confirm('Clear every saved pick on this device?');
   if (!confirmed) return;
   picks = [];
-  savePicks();
   render();
   showToast('All picks cleared');
 });
 
-render();
+loadPicksFromJson();
