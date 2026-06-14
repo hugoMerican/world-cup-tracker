@@ -1,0 +1,17 @@
+{
+  "exportedAt": "2026-06-14T08:50:00.000Z",
+  "app": "World Cup Picks",
+  "version": 4,
+  "picks": [
+    { "id": "pick-hugo", "friend": "Hugo", "team": "France", "status": "Alive", "updatedAt": "2026-06-14T08:50:00.000Z" },
+    { "id": "pick-yagiz", "friend": "Yagiz", "team": "Portugal", "status": "Alive", "updatedAt": "2026-06-14T08:50:00.000Z" },
+    { "id": "pick-Imraan", "friend": "Imraan", "team": "France", "status": "Alive", "updatedAt": "2026-06-14T08:50:00.000Z" },
+    { "id": "pick-Ivnesh", "friend": "Ivnesh", "team": "Netherlands", "status": "Alive", "updatedAt": "2026-06-14T08:50:00.000Z" },
+    { "id": "pick-Kok", "friend": "Kok", "team": "Netherlands", "status": "Alive", "updatedAt": "2026-06-14T08:50:00.000Z" },
+    { "id": "pick-ming", "friend": "Ming", "team": "England", "status": "Alive", "updatedAt": "2026-06-14T08:50:00.000Z" },
+    { "id": "pick-Redd-and-ai-jin", "friend": "Redd and Ai Jin", "team": "Spain", "status": "Alive", "updatedAt": "2026-06-14T08:50:00.000Z" },
+    { "id": "pick-namo", "friend": "Namo", "team": "Argentina", "status": "Alive", "updatedAt": "2026-06-14T08:50:00.000Z" },
+    { "id": "pick-Dhinesh", "friend": "Dhinesh", "team": "France", "status": "Alive", "updatedAt": "2026-06-14T08:50:00.000Z" },
+    { "id": "pick-sammy", "friend": "Sammy", "team": "Spain", "status": "Alive", "updatedAt": "2026-06-14T08:50:00.000Z" }
+  ]
+}

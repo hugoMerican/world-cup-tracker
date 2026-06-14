@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>World Cup Picks</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="imraan.jpeg"/>
+</head>
+<body>
+  <main class="app">
+    <section class="hero glass">
+      <div>
+        <span class="eyebrow">🏆 Pony Up Boys and Girls</span>
+        <h1>World Cup Picks</h1>
+      </div>
+    </section>
+
+    <section id="nextMatchSection" class="section next-match-section">
+      <div class="section-heading compact-heading">
+        <div>
+          <h2>Upcoming match for picked teams</h2>
+        </div>
+      </div>
+      <div id="nextMatchCard" class="next-match-card"></div>
+    </section>
+
+    <section class="section picks-section">
+      <div class="section-heading">
+        <div>
+          <h2>All picks</h2>
+        </div>
+      </div>
+      <div class="filters">
+        <input id="searchInput" placeholder="Search friends or teams..." autocomplete="off" />
+        <select id="statusFilter">
+          <option value="All">All statuses</option>
+          <option value="Alive">Alive</option>
+          <option value="Eliminated">Eliminated</option>
+          <option value="Winner">Winner</option>
+        </select>
+      </div>
+      <div id="tableArea" class="table-wrap"></div>
+    </section>
+
+    <section class="grid metrics-grid">
+      <section class="section">
+        <h2>Snapshot</h2>
+        <div class="stats">
+          <div class="stat"><span>Total picks</span><strong id="totalPicks">0</strong></div>
+          <div class="stat"><span>Unique teams</span><strong id="uniqueTeams">0</strong></div>
+          <div class="stat"><span>Most picked</span><strong id="topTeam">—</strong></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Popular picks</h2>
+        <div id="bars" class="bars"></div>
+      </section>
+    </section>
+
+    <section class="json-panel glass">
+      <div>
+        <h2>JSON data</h2>
+        <details class="json-example">
+          <summary>Show compact JSON format</summary>
+          <pre>{
+  "picks": [
+    { "friend": "Hugo", "team": "Brazil", "status": "Alive" }
+  ]
+}</pre>
+        </details>
+      </div>
+      <div class="json-actions">
+        <button class="btn small" id="exportBtn" type="button">Export</button>
+        <button class="btn secondary small" id="importBtn" type="button">Import</button>
+        <button class="btn danger small" id="clearBtn" type="button">Clear</button>
+        <input hidden id="importFile" type="file" accept="application/json" />
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
